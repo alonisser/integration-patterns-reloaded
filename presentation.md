@@ -1,6 +1,6 @@
 class: center, middle
 
-# Integration patterns 
+# Data integration patterns 
 ## Cooperation is hard
 
 [live presentation](https://alonisser.github.io/integration-patterns-messaging) <br/>
@@ -58,7 +58,8 @@ Users/Stakeholders of course want to access and change the data without ever kno
 
 --
 
-* Applications are not trustworthy. You can never know if the other side would be available **when** you need it.
+* Applications are not trustworthy (Don't get me started about devs).
+ You can never know if the other side would be available **when** you need it.
 
 --
 
@@ -77,9 +78,17 @@ Users/Stakeholders of course want to access and change the data without ever kno
 * Even with authority, Integrators have limited resources to change existing applications (Might not be even possible with "over the shelf" software products)
 
 ---
+# Integration patters - Strategic design
 
+* The big problem of integration is working with different mental models. DDD suggests several strategic patterns for this kind of cooperation:
+Bounded contexts, shared kernel, conformist, producer/consumer teams and more
 
-# Integration question: Stateless vs Statefull
+--
+
+* This is out of scope for this talk.. we'll be focusing on the technical aspect of integrating data.
+
+---
+# Data Integration question: Stateless vs Statefull
 
 A main question we need to answer when building an integration - Do we need to trigger a "one time" action based on the input. Or do we need to use existing state.
 
@@ -172,7 +181,6 @@ But App concept of a client might be a geographical area. Or one service has a c
 The pattern: Two apps share a db as way to share data, perhaps one only reads and one reads and writes ("the owner") 
 
 
-
 Cons continued:
 * Who "owns" the scheme? what happens when one app changes the scheme and breaks the other. Or change persistence type?
  Sometimes you don't control the schema. But a prepackaged third party (Integrating straight to a db of a CRM provider).
@@ -222,7 +230,8 @@ What happens when in a transactional path (think user creation) a http request h
 
 # Integration pattern: remote blocking api wrapped by a middleware (Service mesh!)
 
-A variant of the blocking pattern, but some of the http api problem handling is moved to the "network" level.
+A variant of the blocking pattern, but some of the http api problem handling is moved to the "network" level
+ (Handling retries and transient errors for example).
 
 Additional pros:
 * More robust, less transient errors (think the occasional 502 from a loaded microservice)
@@ -305,7 +314,9 @@ But after that some client data might change, and if the microservice isn't bein
 
 # Integration Dangers - The distributed monolith
 
-* The distributed monolith.
+* The [distributed monolith](https://sebiwi.github.io/comics/distributed-monolith/).
+
+
 
 ---
 
@@ -325,6 +336,15 @@ How to detect:
 
 * Bounded context
 
+**"total unification of the domain model for a large system will not be feasible or cost-effective"**
+
+>>Bounded Contexts have both unrelated concepts (such as a support ticket only existing in a customer support context)
+ but also share concepts (such as products and customers). Different contexts may have completely different models of common concepts with mechanisms
+> to map between these polysemic concepts for integration. Several DDD patterns explore alternative relationships between contexts.[Martin fowler](https://martinfowler.com/bliki/BoundedContext.html)
+
+ *DDD=>Domain driven design by Erik evans*
+---
+# Integration Antidote
 * Well Defined apis
 
 * Being strict about having a single source of truth (A bounded context Smell detector)

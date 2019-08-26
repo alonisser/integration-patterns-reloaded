@@ -1,5 +1,5 @@
-# Integration patterns - cooperation is hard
+# Data Integration patterns 
 
-## A tech talk
+## cooperation is hard
 
 ## Live presentation [here](https://alonisser.github.io/integration-patterns-reloaded/#1)
